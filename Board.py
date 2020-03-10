@@ -1,14 +1,14 @@
 # Rajinder , Pete, Josh
-#   Version 0
-#   2/23/2020
+#   Version 1
+#   Last Updated: 3/9/2020
 #
-# Makes a board for instancing, origin of board is 0,0
+# Makes a board for instancing, origin of board is 1,1
 #
 
 
 class Board(object):
 
-    gameBoard = None  # Store the main board array
+    gameBoard = []  # Store the main board array
 
     # @new true for a new board and false to store an old board
     # @board previous board to be instantiated
@@ -30,13 +30,13 @@ class Board(object):
     #               row1
 
     def makeBoard(self):
-
-        row1 = [0, 0, 0, 0, 0, 0, 0]
-        row2 = [0, 0, 0, 0, 0, 0, 0]
-        row3 = [0, 0, 0, 0, 0, 0, 0]
-        row4 = [0, 0, 0, 0, 0, 0, 0]
-        row5 = [0, 0, 0, 0, 0, 0, 0]
         row6 = [0, 0, 0, 0, 0, 0, 0]
+        row5 = [0, 0, 0, 0, 0, 0, 0]
+        row4 = [0, 0, 0, 0, 0, 0, 0]
+        row3 = [0, 0, 0, 0, 0, 0, 0]
+        row2 = [0, 0, 0, 0, 0, 0, 0]
+        row1 = [0, 0, 0, 0, 0, 0, 0]
+
         fullBoard = [row1, row2, row3, row4, row5, row6]
         return fullBoard
 
@@ -68,9 +68,12 @@ class Board(object):
     # @return a specific column or -1 if input is invalid
     def get_col(self, col):
         if(self.inboundCol(col) and True):
-            tempLoop = None
-            for currRow in range(5):
-                tempLoop[currRow] = self.gameBoard[currRow][col]
+            tempLoop = [0,0,0,0,0,0]
+            for currRow in range(6):
+                value = self.gameBoard[currRow][col]
+                #print(value)
+                tempLoop[currRow] = value
+
             return tempLoop
         else:
             return -1
@@ -96,10 +99,9 @@ class Board(object):
     # Row and Col will be the starting point of the diag going in the right direction
     # @return will return the array of variables or a -1 if it failed
     def get_diagR(self, row, col):
-
         if(self.inboundCol(col) and self.inboundRow(row) and True):
-            tempLoop = None
-            for add in range(5):
+            tempLoop = [0,0,0,0,0,0]
+            for add in range(6):
                 nrow = row + add
                 ncol = col + add  # Accounting for moving in the right direction
                 if(ncol > 6 or nrow > 5):
@@ -114,8 +116,8 @@ class Board(object):
     # @return will return the array of variables or a -1 if it failed
     def get_diagL(self, row, col):
         if(self.inboundCol(col) and self.inboundRow(row) and True):
-            tempLoop = None
-            for add in range(5):
+            tempLoop = [0,0,0,0,0,0]
+            for add in range(6):
                 nrow = row + add
                 ncol = col - add  # Accounting for moving in the left direction
                 if ncol < -1 or nrow > 5:
