@@ -78,19 +78,24 @@ class Board(object):
         else:
             return -1
 
+    # @return returns true or false depending on if col and row are within bounds
+    # Checks to see if both col and row are within bound for a 7x6 board (origin 0,0)
+    def inbound(self, row, col):
+        if self.inboundCol(col) == True and self.inboundRow(row) == True:
+            return True
+        return False
+
     # @return returns true or false depending on if col is within bounds
     # Checks to see if col is within bound for a 7x6 board (origin 0,0)
     def inboundCol(self, col):
-        acol = col
-        if(acol < 7):
+        if(col < 7):
             return True
         return False
 
     # @return returns true or false depending on if row is within bounds
     # Checks to see if row is within bound for a 7x6 board (origin 0,0)
     def inboundRow(self, row):
-        arow = row
-        if(arow < 6):
+        if(row < 6):
             return True
         return False
 
@@ -99,7 +104,7 @@ class Board(object):
     # Row and Col will be the starting point of the diag going in the right direction
     # @return will return the array of variables or a -1 if it failed
     def get_diagR(self, row, col):
-        if(self.inboundCol(col) and self.inboundRow(row) and True):
+        if(self.inboundCol(col) and self.inboundRow(row)):
             tempLoop = [0,0,0,0,0,0]
             for add in range(6):
                 nrow = row + add
@@ -115,7 +120,7 @@ class Board(object):
     # Row and Col will be the starting point of the diag going in the left direction
     # @return will return the array of variables or a -1 if it failed
     def get_diagL(self, row, col):
-        if(self.inboundCol(col) and self.inboundRow(row) and True):
+        if(self.inboundCol(col) and self.inboundRow(row)):
             tempLoop = [0,0,0,0,0,0]
             for add in range(6):
                 nrow = row + add
@@ -126,3 +131,7 @@ class Board(object):
             return tempLoop
         else:
             return -1
+
+    def printBoard(self):
+        for row in range(6, -1, -1):
+            print(self.get_row(row))
