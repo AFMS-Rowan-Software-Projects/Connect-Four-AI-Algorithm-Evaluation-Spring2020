@@ -88,14 +88,14 @@ class Board(object):
     # @return returns true or false depending on if col is within bounds
     # Checks to see if col is within bound for a 7x6 board (origin 0,0)
     def inboundCol(self, col):
-        if(col < 7):
+        if(col < 7 and col > -1):
             return True
         return False
 
     # @return returns true or false depending on if row is within bounds
     # Checks to see if row is within bound for a 7x6 board (origin 0,0)
     def inboundRow(self, row):
-        if(row < 6):
+        if(row < 6 and row > -1):
             return True
         return False
 
