@@ -1,24 +1,24 @@
 # Rajinder , Pete, Josh, Ian
-#   Version 0
-#   2/26/2020
+#   Version 0.02
+#   4/5/2020
 #
 # Defensive algorithm
 #   Will try to force draws on the board
 #
-
+import copy
 from Board import Board
-
 
 #Global variable dictionary which will hold values calculated for the edges/perimeter of the placed pieces
 coordinates = { }
 
+
 #Defensive Algorithm Driver
-def __init__(board, turn):
-     fix_board(board)
-     board.printBoard()
-     find_edges(board)
-     calculate_edges(board)
-     pick_col()
+def __init__(board):
+    tempBoard = copy.deepcopy(board)
+    fix_board(tempBoard)
+    find_edges(tempBoard)
+    calculate_edges(tempBoard)
+    return pick_col()
 
     #functions to place
 
@@ -57,7 +57,6 @@ def find_edges(board):
                     edges.append((currRow, currCol + 1))
                 if board.inbound(currRow -1, currCol + 1) and board.search(currRow - 1, currCol + 1) is 0:
                     edges.append((currRow -1 , currCol + 1))
-
 
     #Removes duplicates from the array before inserting into a dictionary for all keys to be different
     edges = list(dict.fromkeys(edges))
@@ -154,9 +153,6 @@ def calculate_edges(board):
             summation += temp
 
         coordinates[position] = summation
-        print("Coordinate:")
-        print(position)
-        print(summation)
 
 # Returns the column from dictionary associated with the
 # position with the highest score made by the bot for User Interface
@@ -174,9 +170,8 @@ def pick_col():
             maximum = coordinates[key]
             column = key[1]
 
-    print(maximum)
-    print(column)
     return column
+
 
 
 
