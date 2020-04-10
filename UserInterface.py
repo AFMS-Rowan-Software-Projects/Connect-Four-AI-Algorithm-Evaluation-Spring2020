@@ -1,6 +1,6 @@
 # Allison, Nick
-# version 1.0
-# 3/5/20
+# version 2.0
+# 4/9/20
 # UI for whole game
 from tkinter import messagebox
 
@@ -15,7 +15,7 @@ import os
 import gameFunction
 import BotControl
 from random import randint
-
+import time
 # Root window for new game
 root = Tk()
 board = []
@@ -34,11 +34,8 @@ def start_game():
     root.withdraw()  # bug- can't quit program after this is closed, need to close root
     humanTurn = randint(0, 1)
     botTurn = 1 - humanTurn
-
-    #humanTurn = randint(0, 1)
-    #botTurn = 1 - humanTurn
-    #print("human turn " + str(humanTurn))
-    #print("bot turn " + str(botTurn))
+    print("human turn " + str(humanTurn))
+    print("bot turn " + str(botTurn))
     # # Root window for game screen
     # gameFrame = Tk()
     # gameFrame.config(height=280)
@@ -62,6 +59,7 @@ def start_game():
     WHITE = (255, 255, 255)
     RED = (255, 0, 0)
     BLACK = (0, 0, 0)
+    YELLOW = (255,255,204)
     # set height and width for each cell
     WIDTH = 30
     HEIGHT = 30
@@ -71,6 +69,7 @@ def start_game():
     # Keeps track of turns
     turn = 0
 
+
     grid.__init__(True, board)
     # Initialize pygame
     pygame.init()
@@ -79,6 +78,43 @@ def start_game():
     screen = pygame.display.set_mode([255,230], pygame.RESIZABLE)
     # Set title of screen
     pygame.display.set_caption("Connect Four")
+    # Background where pause menu exists, will overlay game when player pauses game
+    background = pygame.Surface([255,230], pygame.RESIZABLE)
+
+    # Pause menu with rectangles for background, and each button
+    X= 80
+    ContinueY = 50
+    RestartY = 80
+    MainMenuY = 110
+    QuitY = 140
+    OPTIONSWIDTH = 100
+    OPTIONSHEIGHT = 20
+
+    pygame.draw.rect(background, BLUE, (0, 0, 270, 270))
+    pygame.draw.rect(background, WHITE, (X, ContinueY, OPTIONSWIDTH, OPTIONSHEIGHT)) #The continue rectangle
+    pygame.draw.rect(background, WHITE, (X, RestartY, OPTIONSWIDTH, OPTIONSHEIGHT)) # the restart rect
+    pygame.draw.rect(background, WHITE, (X, MainMenuY, OPTIONSWIDTH, OPTIONSHEIGHT)) # main menu rect
+    pygame.draw.rect(background, WHITE, (X, QuitY, OPTIONSWIDTH, OPTIONSHEIGHT)) # the quit rect
+
+    font = pygame.font.Font('freesansbold.ttf', 12)
+    Continue = font.render('Continue', True, BLACK)
+    ContinueRect = Continue.get_rect()
+    ContinueRect.center = (X+OPTIONSWIDTH//2,ContinueY+OPTIONSHEIGHT//2)
+    background.blit(Continue, ContinueRect)
+
+    Restart = font.render('Restart', True, BLACK)
+    RestartRect = Restart.get_rect()
+    RestartRect.center = (X + OPTIONSWIDTH // 2, RestartY + OPTIONSHEIGHT // 2)
+    background.blit(Restart, RestartRect)
+
+    MM = font.render("Main Menu", True, BLACK)
+    MMRect = MM.get_rect()
+    MMRect.center = (X + OPTIONSWIDTH // 2, MainMenuY + OPTIONSHEIGHT //2)
+    background.blit(MM,MMRect)
+    Quit = font.render("Quit", True, BLACK)
+    QuitRect = Quit.get_rect()
+    QuitRect.center = (X + OPTIONSWIDTH // 2, QuitY + OPTIONSHEIGHT // 2)
+    background.blit(Quit, QuitRect)
 
     # Is set to true when the user is done playing
     done = False
@@ -134,13 +170,31 @@ def start_game():
                 # Sets the selected location to player 2
                 # Increment the turn
                 turn = turn + 1
+#*******************************************************************************************************************
             # triggers pause menu with options for player to start new game, restart, or quit
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     print("Esc key pressed mid game")
+                    screen.blit(background, (0, 0))
+
+                    finished = False
+                    pygame.display.flip()
+                    while not finished:
+                        for i in pygame.event.get():
+                            if i.type == pygame.MOUSEBUTTONDOWN:
+                                optionpos = pygame.mouse.get_pos()
+                                OPTIONSWIDTH, OPTIONSHEIGHT = pygame.display.get_surface().get_size()
+                                finished = True
+
+                    # update display
+#**********************************************************************************************************************
+
+                    # FOR TESTING to stop this from inf looping, just pauses everything for 5 sec
+                    #time.sleep(3)
+
                     # create separate tkinter window that features options for player to select
-                    optionFrame = Tk()
-                    optionFrame.geometry('200x200')
+                    # optionFrame = Tk()
+                    # optionFrame.geometry('200x200')
                     # create 3 buttons on frame for each option
             elif event.type == pygame.VIDEORESIZE:
                 # There's some code to add back window content here.
@@ -213,28 +267,29 @@ def start_game():
     pygame.quit()
 
 
-def open_options():
+#def open_options():
     # create new frame to give player options to
     # 'quit', 'restart', 'new game'
-    optionFrame = Tk()
-    optionFrame.config(width=100, height=100)
+    #optionFrame = Tk()
+    #optionFrame.config(width=100, height=100)
 
     # create grid for button option positions
-    optionFrame.grid()
+    #optionFrame.grid()
+
 
     # create each button for every option
     # quitBtn = Button(optionFrame, text='Quit', command=quit_game)
     # restartBtn = Button(optionFrame, text='Quit', command=restart_game)
     # new_game_Btn = Button(optionFrame, text='Quit', command=new_game)
 
-    quitBtn = Button(optionFrame, text='Quit')
-    restartBtn = Button(optionFrame, text='Restart')
-    new_game_Btn = Button(optionFrame, text='New Game')
+    #quitBtn = Button(optionFrame, text='Quit')
+    #restartBtn = Button(optionFrame, text='Restart')
+    #new_game_Btn = Button(optionFrame, text='New Game')
 
     # add btns to grid
-    quitBtn.grid(row=0, column=0, sticky=NSEW)
-    restartBtn.grid(row=1, column=0, sticky=NSEW)
-    new_game_Btn.grid(row=2, column=0, sticky=NSEW)
+    #quitBtn.grid(row=0, column=0, sticky=NSEW)
+    #restartBtn.grid(row=1, column=0, sticky=NSEW)
+    #new_game_Btn.grid(row=2, column=0, sticky=NSEW)
 
 
 # var that controls selection of bot pick radio buttons
