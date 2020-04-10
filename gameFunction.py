@@ -34,7 +34,7 @@ def checkBothDiagonals(board):
     # 2 Tuples  to store the coordinates of the base of the diagonal
     # RIGHT
     positionsRRow = [0, 2, 0, 1, 0, 0]  # positions for Right row coordinates
-    positionsRCol = [3, 1, 2, 1, 1, 0]  # positions for Right col coordinates
+    positionsRCol = [3, 0, 2, 0, 1, 0]  # positions for Right col coordinates
 
     # LEFT
     positionsLRow = [0, 2, 0, 1, 0, 0]  # positions for Left row coordinates
