@@ -1,7 +1,7 @@
 '''
-Rajinder & Pete
-Version 0.02
-4/5/2020
+Rajinder, Pete, & Josh
+Version 0.03
+4/9/2020
 Main Function
     Handles all the interactions between Game Function & Algorithms
     Selects the algorithm
@@ -19,7 +19,7 @@ def __init__(key, board, turn):
         selCol = selectAlgorithm(key, board)
         return selCol
     elif key is not 1:
-        if turn < 3:
+        if turn < 1:
             return 3
         else:
             selCol = selectAlgorithm(key, board)
