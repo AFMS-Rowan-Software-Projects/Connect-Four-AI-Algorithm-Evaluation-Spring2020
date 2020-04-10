@@ -80,20 +80,6 @@ def start_game():
     pygame.display.set_caption("Connect Four")
     # Background where pause menu exists, will overlay game when player pauses game
 
-
-    # Pause menu with rectangles for background, and each button
-    X= 80
-    ContinueY = 50
-    RestartY = 80
-    MainMenuY = 110
-    QuitY = 140
-    OPTIONSWIDTH = 100
-    OPTIONSHEIGHT = 20
-
-
-
-
-
     # Is set to true when the user is done playing
     done = False
 
@@ -159,33 +145,49 @@ def start_game():
                     print(str(OPTIONSWIDTH))
                     print(str(OPTIONSHEIGHT))
 
+                    rectBtnHeight = OPTIONSHEIGHT//10
+                    rectBtnWidth = OPTIONSWIDTH//3
+
+
+                    rectMargin = rectBtnHeight + 10
+
+                    rectX = OPTIONSWIDTH//3
+                    continueY = OPTIONSHEIGHT//10
+                    restartY = continueY + rectMargin
+                    mainY = restartY + rectMargin
+                    quitY = mainY + rectMargin
+
                     pygame.draw.rect(background, BLUE, (0, 0, OPTIONSWIDTH, OPTIONSHEIGHT))
                     pygame.draw.rect(background, WHITE,
-                                     (OPTIONSWIDTH//3, OPTIONSHEIGHT//3, OPTIONSWIDTH//3, OPTIONSHEIGHT//10))  # The continue rectangle
+                                     (rectX, continueY, rectBtnWidth, rectBtnHeight))  # The continue rectangle
                     pygame.draw.rect(background, WHITE,
-                                     (OPTIONSWIDTH//3, OPTIONSHEIGHT//3 + OPTIONSHEIGHT//10 + 3, OPTIONSWIDTH//3, OPTIONSHEIGHT//10))  # the restart rect
+                                     (rectX, restartY, rectBtnWidth, rectBtnHeight))  # the restart rect
                     pygame.draw.rect(background, WHITE,
-                                     (OPTIONSWIDTH//3, OPTIONSHEIGHT//3 + 40, OPTIONSWIDTH//3, OPTIONSHEIGHT//10))  # main menu rect
+                                     (rectX, mainY, rectBtnWidth, rectBtnHeight))  # main menu rect
                     pygame.draw.rect(background, WHITE,
-                                     (OPTIONSWIDTH//3, OPTIONSHEIGHT*(4/5), OPTIONSWIDTH//3, OPTIONSHEIGHT//10))  # the quit rect
+                                     (rectX, quitY, rectBtnWidth, rectBtnHeight))  # the quit rect
+
                     font = pygame.font.Font('freesansbold.ttf', 12)
+
                     Continue = font.render('Continue', True, BLACK)
                     ContinueRect = Continue.get_rect()
-                    ContinueRect.center = (X + OPTIONSWIDTH // 2, ContinueY + OPTIONSHEIGHT // 2)
+                    ContinueRect.center = (rectX+(rectBtnWidth//2), continueY+(rectBtnHeight//2))
                     background.blit(Continue, ContinueRect)
 
                     Restart = font.render('Restart', True, BLACK)
                     RestartRect = Restart.get_rect()
-                    RestartRect.center = (X + OPTIONSWIDTH // 3, RestartY + OPTIONSHEIGHT // 10)
+                    RestartRect.center = (rectX+(rectBtnWidth//2), restartY+(rectBtnHeight//2))
                     background.blit(Restart, RestartRect)
 
                     MM = font.render("Main Menu", True, BLACK)
                     MMRect = MM.get_rect()
-                    MMRect.center = (X + OPTIONSWIDTH // 2, MainMenuY + OPTIONSHEIGHT // 2)
+                    MMRect.center = (rectX+(rectBtnWidth//2), mainY+(rectBtnHeight//2))
                     background.blit(MM, MMRect)
+
                     Quit = font.render("Quit", True, BLACK)
                     QuitRect = Quit.get_rect()
-                    QuitRect.center = (X + OPTIONSWIDTH // 2, QuitY + OPTIONSHEIGHT // 2)
+                    QuitRect.center = (rectX+(rectBtnWidth//2), quitY+(rectBtnHeight//2))
+
                     background.blit(Quit, QuitRect)
                     screen.blit(background, (0, 0))
                     finished = False
@@ -266,7 +268,7 @@ def start_game():
                     winnerStr = "Player"
                 else:
                     winnerStr = "Bot"
-
+                # TODO make winner box appear in front of pygame
                 # create tkinter message telling user who won (user or bot)
                 messagebox.showinfo("Winner!", winnerStr + " has won! Game completed in " + str(turn) + " turns.")
 
