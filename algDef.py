@@ -1,6 +1,6 @@
 # Rajinder , Pete, Josh, Ian
-#   Version 0.02
-#   4/5/2020
+#   Version 0.03
+#   4/9/2020
 #
 # Defensive algorithm
 #   Will try to force draws on the board
@@ -9,12 +9,13 @@ import copy
 from Board import Board
 
 #Global variable dictionary which will hold values calculated for the edges/perimeter of the placed pieces
-coordinates = { }
+coordinates = {}
 
 
 #Defensive Algorithm Driver
 def __init__(board):
     tempBoard = copy.deepcopy(board)
+    coordinates.clear()
     fix_board(tempBoard)
     find_edges(tempBoard)
     calculate_edges(tempBoard)
@@ -26,10 +27,11 @@ def __init__(board):
 def fix_board(board):
     for currRow in range(6):
         for currCol in range (7):
-            if (board.search(currRow, currCol) == 1):  # Checks for player piece
+            if (board.search(currRow, currCol) == 1 or board.search(currRow, currCol) is True):  # Checks for player piece
                 board.set_board(currRow, currCol, True)
-            elif (board.search(currRow, currCol) == 2):  # Checks for bot piece
+            elif (board.search(currRow, currCol) == 2 or board.search(currRow, currCol) is False):  # Checks for bot piece
                 board.set_board(currRow, currCol, False)
+    board.printBoard()
 
  # Finds outer edge pieces on the board set to True e.g. human placed pieces with free slots around them set in
  #dictionary which has initial value of 0 for each key/coordinate tuple
@@ -43,28 +45,33 @@ def find_edges(board):
             #Check to see if current position is set to True clockwise i.e. Player's piece
             if board.search(currRow, currCol) is True:
                 #Checks which see if
-                if board.inbound(currRow - 1, currCol - 1) and board.search(currRow - 1, currCol - 1) is 0:
+                if board.inbound(currRow - 1, currCol - 1) and board.search(currRow - 1, currCol - 1) is 0 \
+                        and not board.search(currRow - 2, currCol -1) is 0:
                     edges.append((currRow - 1, currCol - 1))
-                if board.inbound(currRow, currCol - 1) and board.search(currRow, currCol - 1) is 0:
+                if board.inbound(currRow, currCol - 1) and board.search(currRow, currCol - 1) is 0 \
+                        and not board.search(currRow - 1, currCol -1) is 0:
                     edges.append((currRow, currCol - 1))
-                if board.inbound(currRow + 1, currCol - 1) and board.search(currRow + 1, currCol - 1) is 0:
+                if board.inbound(currRow + 1, currCol - 1) and board.search(currRow + 1, currCol - 1) is 0 \
+                        and not board.search(currRow, currCol - 1) is 0:
                     edges.append((currRow + 1, currCol - 1))
-                if board.inbound(currRow + 1, currCol) and board.search(currRow + 1, currCol) is 0:
+                if board.inbound(currRow + 1, currCol) and board.search(currRow + 1, currCol) is 0 \
+                        and not board.search(currRow, currCol) is 0:
                     edges.append((currRow + 1, currCol))
-                if board.inbound(currRow + 1, currCol + 1) and board.search(currRow + 1, currCol + 1) is 0:
+                if board.inbound(currRow + 1, currCol + 1) and board.search(currRow + 1, currCol + 1) is 0 \
+                        and not board.search(currRow, currCol + 1) is 0:
                     edges.append((currRow + 1, currCol + 1))
-                if board.inbound(currRow, currCol + 1) and board.search(currRow, currCol + 1) is 0:
+                if board.inbound(currRow, currCol + 1) and board.search(currRow, currCol + 1) is 0 \
+                        and not board.search(currRow - 1, currCol + 1) is 0:
                     edges.append((currRow, currCol + 1))
-                if board.inbound(currRow -1, currCol + 1) and board.search(currRow - 1, currCol + 1) is 0:
-                    edges.append((currRow -1 , currCol + 1))
-
+                if board.inbound(currRow -1, currCol + 1) and board.search(currRow - 1, currCol + 1) is 0 \
+                        and not board.search(currRow - 2, currCol + 1) is 0:
+                    edges.append((currRow -1, currCol + 1))
     #Removes duplicates from the array before inserting into a dictionary for all keys to be different
     edges = list(dict.fromkeys(edges))
-
     #Inserts coordinate tuples into the dictionary, setting all values to 0.
     for value in edges:
-        coordinates[value] = 0
-
+        if board.search(value[0], value[1]) is 0:
+            coordinates[value] = 0
 # Changes values through calculations based on set rules by the algorithm
 def calculate_edges(board):
     # Iterates through all edges in a for-each loop within the dictionary
@@ -86,7 +93,7 @@ def calculate_edges(board):
         # Searching for Row going Left
         for count in range(1, 4):
             if board.inbound(position[0], position[1] - count) \
-                    and board.search(position[0] + count, position[1] - count) is True:
+                    and board.search(position[0], position[1] - count) is True:
                 pieces = count
             else:
                 break
@@ -141,17 +148,15 @@ def calculate_edges(board):
             else:
                 break
         connect.append(pieces)
-
         for piece in connect:
             temp = piece
             if piece == 1:
                 temp = 1
             elif piece == 2:
-                temp = 2
+                temp = 7
             elif piece == 3:
-                temp = 10
+                temp = 20
             summation += temp
-
         coordinates[position] = summation
 
 # Returns the column from dictionary associated with the
@@ -169,11 +174,4 @@ def pick_col():
         if maximum < coordinates[key]:
             maximum = coordinates[key]
             column = key[1]
-
     return column
-
-
-
-
-
-
