@@ -34,8 +34,11 @@ def start_game():
     root.withdraw()  # bug- can't quit program after this is closed, need to close root
     humanTurn = randint(0, 1)
     botTurn = 1 - humanTurn
-    print("human turn " + str(humanTurn))
-    print("bot turn " + str(botTurn))
+
+    #humanTurn = randint(0, 1)
+    #botTurn = 1 - humanTurn
+    #print("human turn " + str(humanTurn))
+    #print("bot turn " + str(botTurn))
     # # Root window for game screen
     # gameFrame = Tk()
     # gameFrame.config(height=280)
@@ -120,7 +123,7 @@ def start_game():
                 # Checks turn and sees if location is occupied
 
             elif turn % 2 == botTurn:
-                column = BotControl.__init__(botPick.get(), grid)
+                column = BotControl.__init__(botPick.get(), grid, turn)
                 currentCol = grid.get_col(column)
                 for currRow in range(5, -1, -1):
                     if currentCol[currRow] == 0:
