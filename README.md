@@ -5,4 +5,5 @@ The Connect Four AI Project will create a basic bot for a user to play connect f
 In order to run this project: first load files into IDE of choosing, the team is currenlty using PyCharm. After loading files into PyCharm or the preferred IDE, Pygame must be installed. In order to do this, go to file, then settings, then project interpreter. On the right side of the window, there will be a plus(+) sign. press it. first, make sure you have the latest version of pip installed by searching for pip, clicking the first option, and hitting install. Then, search for pygame and do the same. After this, run the file UserInterface. The game should then run.
 
 For the current python version go to: https://www.python.org/downloads/
+
 IDE download (Community Edition): https://www.jetbrains.com/pycharm/download/#section=windows
