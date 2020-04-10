@@ -79,7 +79,7 @@ def start_game():
     # Set title of screen
     pygame.display.set_caption("Connect Four")
     # Background where pause menu exists, will overlay game when player pauses game
-    background = pygame.Surface([255,230], pygame.RESIZABLE)
+
 
     # Pause menu with rectangles for background, and each button
     X= 80
@@ -90,31 +90,9 @@ def start_game():
     OPTIONSWIDTH = 100
     OPTIONSHEIGHT = 20
 
-    pygame.draw.rect(background, BLUE, (0, 0, 270, 270))
-    pygame.draw.rect(background, WHITE, (X, ContinueY, OPTIONSWIDTH, OPTIONSHEIGHT)) #The continue rectangle
-    pygame.draw.rect(background, WHITE, (X, RestartY, OPTIONSWIDTH, OPTIONSHEIGHT)) # the restart rect
-    pygame.draw.rect(background, WHITE, (X, MainMenuY, OPTIONSWIDTH, OPTIONSHEIGHT)) # main menu rect
-    pygame.draw.rect(background, WHITE, (X, QuitY, OPTIONSWIDTH, OPTIONSHEIGHT)) # the quit rect
 
-    font = pygame.font.Font('freesansbold.ttf', 12)
-    Continue = font.render('Continue', True, BLACK)
-    ContinueRect = Continue.get_rect()
-    ContinueRect.center = (X+OPTIONSWIDTH//2,ContinueY+OPTIONSHEIGHT//2)
-    background.blit(Continue, ContinueRect)
 
-    Restart = font.render('Restart', True, BLACK)
-    RestartRect = Restart.get_rect()
-    RestartRect.center = (X + OPTIONSWIDTH // 2, RestartY + OPTIONSHEIGHT // 2)
-    background.blit(Restart, RestartRect)
 
-    MM = font.render("Main Menu", True, BLACK)
-    MMRect = MM.get_rect()
-    MMRect.center = (X + OPTIONSWIDTH // 2, MainMenuY + OPTIONSHEIGHT //2)
-    background.blit(MM,MMRect)
-    Quit = font.render("Quit", True, BLACK)
-    QuitRect = Quit.get_rect()
-    QuitRect.center = (X + OPTIONSWIDTH // 2, QuitY + OPTIONSHEIGHT // 2)
-    background.blit(Quit, QuitRect)
 
     # Is set to true when the user is done playing
     done = False
@@ -175,15 +153,48 @@ def start_game():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     print("Esc key pressed mid game")
-                    screen.blit(background, (0, 0))
 
+                    OPTIONSWIDTH, OPTIONSHEIGHT = pygame.display.get_surface().get_size()
+                    background = pygame.Surface([OPTIONSWIDTH, OPTIONSHEIGHT], pygame.RESIZABLE)
+                    print(str(OPTIONSWIDTH))
+                    print(str(OPTIONSHEIGHT))
+
+                    pygame.draw.rect(background, BLUE, (0, 0, OPTIONSWIDTH, OPTIONSHEIGHT))
+                    pygame.draw.rect(background, WHITE,
+                                     (OPTIONSWIDTH//3, OPTIONSHEIGHT//3, OPTIONSWIDTH//3, OPTIONSHEIGHT//10))  # The continue rectangle
+                    pygame.draw.rect(background, WHITE,
+                                     (OPTIONSWIDTH//3, OPTIONSHEIGHT//3 + OPTIONSHEIGHT//10 + 3, OPTIONSWIDTH//3, OPTIONSHEIGHT//10))  # the restart rect
+                    pygame.draw.rect(background, WHITE,
+                                     (OPTIONSWIDTH//3, OPTIONSHEIGHT//3 + 40, OPTIONSWIDTH//3, OPTIONSHEIGHT//10))  # main menu rect
+                    pygame.draw.rect(background, WHITE,
+                                     (OPTIONSWIDTH//3, OPTIONSHEIGHT*(4/5), OPTIONSWIDTH//3, OPTIONSHEIGHT//10))  # the quit rect
+                    font = pygame.font.Font('freesansbold.ttf', 12)
+                    Continue = font.render('Continue', True, BLACK)
+                    ContinueRect = Continue.get_rect()
+                    ContinueRect.center = (X + OPTIONSWIDTH // 2, ContinueY + OPTIONSHEIGHT // 2)
+                    background.blit(Continue, ContinueRect)
+
+                    Restart = font.render('Restart', True, BLACK)
+                    RestartRect = Restart.get_rect()
+                    RestartRect.center = (X + OPTIONSWIDTH // 3, RestartY + OPTIONSHEIGHT // 10)
+                    background.blit(Restart, RestartRect)
+
+                    MM = font.render("Main Menu", True, BLACK)
+                    MMRect = MM.get_rect()
+                    MMRect.center = (X + OPTIONSWIDTH // 2, MainMenuY + OPTIONSHEIGHT // 2)
+                    background.blit(MM, MMRect)
+                    Quit = font.render("Quit", True, BLACK)
+                    QuitRect = Quit.get_rect()
+                    QuitRect.center = (X + OPTIONSWIDTH // 2, QuitY + OPTIONSHEIGHT // 2)
+                    background.blit(Quit, QuitRect)
+                    screen.blit(background, (0, 0))
                     finished = False
                     pygame.display.flip()
                     while not finished:
                         for i in pygame.event.get():
                             if i.type == pygame.MOUSEBUTTONDOWN:
                                 optionpos = pygame.mouse.get_pos()
-                                OPTIONSWIDTH, OPTIONSHEIGHT = pygame.display.get_surface().get_size()
+
                                 finished = True
 
                     # update display
