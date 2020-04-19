@@ -1,13 +1,14 @@
 '''
-Rajinder, Pete, & Josh
-Version 0.03
-4/9/2020
+Rajinder, Pete, Josh, Ian
+Version 0.04
+4/19/2020
 Main Function
     Handles all the interactions between Game Function & Algorithms
     Selects the algorithm
 '''
 import algR
 import algDef
+import algOff
 from Board import Board
 
 selCol = -1 # Selected Column by the algorithm ( Default value of -1 for error checking)
@@ -32,7 +33,7 @@ def selectAlgorithm(key, board):
     elif key == 2:
         return defensive(board)
     elif key == 3:
-        return "No chance"
+        return offensive(board)
     elif key == 4:
         return "*crying*"
 
@@ -44,8 +45,10 @@ def random(board):
         return algR.__init__(board)
 def defensive(board):
         return algDef.__init__(board)
-def offensive():
-        return "file"
+def offensive(board):
+        return algOff.__init__(board)
 def minmax():
         return "file"
+
+
 
