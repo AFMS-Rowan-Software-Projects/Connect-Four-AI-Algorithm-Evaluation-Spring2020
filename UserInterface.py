@@ -22,9 +22,9 @@ board = []
 grid = Board(True, board)
 winner = 0
 
-
 def reset():
     grid.makeBoard()
+    grid.printBoard()
 
 
 
@@ -34,25 +34,7 @@ def start_game():
     root.withdraw()  # bug- can't quit program after this is closed, need to close root
     humanTurn = randint(0, 1)
     botTurn = 1 - humanTurn
-    print("human turn " + str(humanTurn))
-    print("bot turn " + str(botTurn))
-    # # Root window for game screen
-    # gameFrame = Tk()
-    # gameFrame.config(height=280)
-    # # gameFrame.grid(row=0, column=0, sticky=(N, W, E, S))
-    #
-    # # embed pygame into tkinter frame, to allow use of drop down menu for game
-    # embed = tk.Frame(gameFrame, width=270, height=250)
-    # embed.pack()
-    # # gameFrame.grid()
-    # os.environ['SDL_WINDOWID'] = str(embed.winfo_id())
-    # # create option btn
-    # # launches new tkinter window with options
-    # # gives player options 'new game, restart, quit'
-    # option_menu_btn = Button(gameFrame, text='Options', command=open_options)
-    #
-    # option_menu_btn.pack()
-    # gameFrame.update()
+
     reset()
     # Define colors
     BLUE = (0, 0, 255)
@@ -194,10 +176,48 @@ def start_game():
                     pygame.display.flip()
                     while not finished:
                         for i in pygame.event.get():
+                            if i.type == pygame.QUIT:  # If user clicked close
+                                pygame.quit()
+                                root.deiconify()
+                                done = True  # Then we are done
+                                finished = True
+
+                            if i.type == pygame.QUIT:  # If user clicked close
+                                return None
+
                             if i.type == pygame.MOUSEBUTTONDOWN:
                                 optionpos = pygame.mouse.get_pos()
+                                posY = optionpos[1]
 
-                                finished = True
+                                # check if user clicked within width of buttons, ignore anything to right or left of them
+                                if rectX <= optionpos[0] <= (rectX+rectBtnWidth):
+                                    # checks if user clicks between start and end of buttons vertically
+                                    if continueY <= posY <= (quitY + rectBtnHeight):
+                                        if continueY <= posY <= (continueY + rectBtnHeight):
+                                            # continue game btn pressed
+                                            finished = True
+                                        elif restartY <= posY <= restartY + rectBtnHeight:
+                                            # reset board
+                                            reset()
+                                            humanTurn = randint(0, 1)
+                                            botTurn = 1 - humanTurn
+                                            turn = 0
+                                            finished = True
+                                        elif mainY <= posY <= mainY + rectBtnHeight:
+                                            # main menu btn pressed
+                                            root.deiconify()  # make main menu visible again
+                                            done = True  # exit pygame loop
+                                            finished = True  # exit option menu loop
+                                        elif quitY <= posY <= quitY + rectBtnHeight:
+                                            # quit entire program, kill everything
+                                            pygame.quit()
+                                            root.destroy()
+                                            # jump over rest of code, don't need to run, program closing
+                                            return None
+
+
+
+                                # finished = True
 
                     # update display
 #**********************************************************************************************************************

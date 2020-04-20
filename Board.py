@@ -17,7 +17,7 @@ class Board(object):
         if (not new):
             self.gameBoard = board
         else:
-            self.gameBoard = self.makeBoard()
+            self.makeBoard()
 
     # Initializes the board and resets the board
     #   Structure:
@@ -37,8 +37,8 @@ class Board(object):
         row2 = [0, 0, 0, 0, 0, 0, 0]
         row1 = [0, 0, 0, 0, 0, 0, 0]
 
-        fullBoard = [row1, row2, row3, row4, row5, row6]
-        return fullBoard
+        self.gameBoard = [row1, row2, row3, row4, row5, row6]
+        return self.gameBoard
 
     # Searches the Board
     # @return returns the value at specified location or -1 if row or col values are out of bounds
