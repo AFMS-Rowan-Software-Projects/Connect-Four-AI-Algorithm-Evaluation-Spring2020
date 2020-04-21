@@ -1,6 +1,6 @@
 # Rajinder , Pete, Josh, Ian
-#   Version 0.01
-#   4/19/2020
+#   Version 0.02
+#   4/20/2020
 #
 # Offensive algorithm
 #   Will try to win as fast as possible
@@ -14,13 +14,21 @@ coordinates = {}
 
 
 #Offensive Algorithm Driver
-def __init__(board):
+#Difficulty set to True when MinMax is active
+def __init__(board, difficulty):    #Offensive Bot Main Driver
     tempBoard = copy.deepcopy(board)
-    coordinates.clear()
-    fix_board(tempBoard)
-    find_edges(tempBoard)
-    calculate_edges(tempBoard)
-    return pick_col(tempBoard)
+    if(difficulty is False):
+        coordinates.clear()
+        fix_board(tempBoard)
+        find_edges(tempBoard)
+        calculate_edges(tempBoard)
+        return pick_col(tempBoard)
+    else:                           #Only for MinMax
+        coordinates.clear()
+        fix_board(tempBoard)
+        find_edges(tempBoard)
+        calculate_edges(tempBoard)
+        return pick_best()
 
     #functions to place
 
@@ -186,3 +194,18 @@ def pick_col(board):
 
     print(column)
     return column
+
+# Returns a value from dictionary associated with the
+# position with the highest score made by the bot for User Interface
+# @return Integer best to place on board against player for MinMax
+def pick_best():
+    best = 0
+    if(bool(coordinates) is True):
+        for key in coordinates:
+            if best is 0:
+                best = coordinates[key]
+
+            if best < coordinates[key]:
+                best = coordinates[key]
+
+    return best
