@@ -1,6 +1,6 @@
 # Rajinder , Pete, Josh, Ian
-#   Version 0.04
-#   4/10/2020
+#   Version 0.05
+#   4/20/2020
 #
 # Defensive algorithm
 #   Will try to force draws on the board
@@ -13,15 +13,21 @@ coordinates = {}
 
 
 #Defensive Algorithm Driver
-def __init__(board):
+#Difficulty set to True when MinMax is active
+def __init__(board, difficulty):    #Defensive Bot Main Driver
     tempBoard = copy.deepcopy(board)
-    coordinates.clear()
-    fix_board(tempBoard)
-    find_edges(tempBoard)
-    calculate_edges(tempBoard)
-    print("board")
-    tempBoard.printBoard()
-    return pick_col(tempBoard)
+    if(difficulty is False):
+        coordinates.clear()
+        fix_board(tempBoard)
+        find_edges(tempBoard)
+        calculate_edges(tempBoard)
+        return pick_col(tempBoard)
+    else:                           #Only for MinMax
+        coordinates.clear()
+        fix_board(tempBoard)
+        find_edges(tempBoard)
+        calculate_edges(tempBoard)
+        return pick_best()
 
     #functions to place
 
@@ -194,3 +200,18 @@ def pick_col(board):
             maximum = coordinates[key]
             column = key[1]
     return column
+
+# Returns a value from dictionary associated with the
+# position with the highest score made by the bot for User Interface
+# @return Integer best to place on board against player for MinMax
+def pick_best():
+    best = 0
+    if(bool(coordinates) is True):
+        for key in coordinates:
+            if best is 0:
+                best = coordinates[key]
+
+            if best < coordinates[key]:
+                best = coordinates[key]
+
+    return best
