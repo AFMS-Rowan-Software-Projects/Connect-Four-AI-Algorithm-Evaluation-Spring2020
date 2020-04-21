@@ -1,7 +1,7 @@
 '''
 Rajinder, Pete, Josh, Ian
-Version 0.04
-4/19/2020
+Version 0.05
+4/20/2020
 Main Function
     Handles all the interactions between Game Function & Algorithms
     Selects the algorithm
@@ -9,6 +9,7 @@ Main Function
 import algR
 import algDef
 import algOff
+import algMinMax
 from Board import Board
 
 selCol = -1 # Selected Column by the algorithm ( Default value of -1 for error checking)
@@ -31,11 +32,11 @@ def selectAlgorithm(key, board):
     if key == 1:
         return random(board)
     elif key == 2:
-        return defensive(board)
+        return defensive(board, False)
     elif key == 3:
-        return offensive(board)
+        return offensive(board, False)
     elif key == 4:
-        return "*crying*"
+        return minmax(board)
 
 
 
@@ -44,11 +45,8 @@ def selectAlgorithm(key, board):
 def random(board):
         return algR.__init__(board)
 def defensive(board):
-        return algDef.__init__(board)
+        return algDef.__init__(board, False)
 def offensive(board):
-        return algOff.__init__(board)
-def minmax():
-        return "file"
-
-
-
+        return algOff.__init__(board, False)
+def minmax(board):
+        return algMinMax.__init__(board)
