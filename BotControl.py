@@ -32,9 +32,9 @@ def selectAlgorithm(key, board):
     if key == 1:
         return random(board)
     elif key == 2:
-        return defensive(board, False)
+        return defensive(board)
     elif key == 3:
-        return offensive(board, False)
+        return offensive(board)
     elif key == 4:
         return minmax(board)
 
