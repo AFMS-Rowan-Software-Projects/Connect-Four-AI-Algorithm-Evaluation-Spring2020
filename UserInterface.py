@@ -16,32 +16,33 @@ import gameFunction
 import BotControl
 from random import randint
 import time
+
 # Root window for new game
 root = Tk()
 board = []
 grid = Board(True, board)
 winner = 0
 
+
 def reset():
     grid.makeBoard()
     grid.printBoard()
 
 
-
-
 def start_game():
     # make start menu invisible
-    root.withdraw()  # bug- can't quit program after this is closed, need to close root
+    root.withdraw()
     humanTurn = randint(0, 1)
     botTurn = 1 - humanTurn
 
     reset()
     # Define colors
-    BLUE = (0, 0, 255)
+    # BLUE = (0, 0, 255)
+    BLUE = (0, 0, 204)
     WHITE = (255, 255, 255)
     RED = (255, 0, 0)
     BLACK = (0, 0, 0)
-    YELLOW = (255,255,204)
+    YELLOW = (255, 255, 204)
     # set height and width for each cell
     WIDTH = 30
     HEIGHT = 30
@@ -51,13 +52,12 @@ def start_game():
     # Keeps track of turns
     turn = 0
 
-
     grid.__init__(True, board)
     # Initialize pygame
     pygame.init()
 
     # Set the size of screen
-    screen = pygame.display.set_mode([255,230], pygame.RESIZABLE)
+    screen = pygame.display.set_mode([255, 230], pygame.RESIZABLE)
     # Set title of screen
     pygame.display.set_caption("Connect Four")
     # Background where pause menu exists, will overlay game when player pauses game
@@ -69,11 +69,11 @@ def start_game():
     clock = pygame.time.Clock()
     counter = 0
 
-    #ToDo: make it so it doesn't loop constantly ( Maybe an action listener???????????)
+    # ToDo: make it so it doesn't loop constantly ( Maybe an action listener???????????)
     while not done:
 
         counter = counter + 1
-        #print("Starting..... loop: " + str(counter))
+        # print("Starting..... loop: " + str(counter))
         for event in pygame.event.get():  # Check to see user input
             if event.type == pygame.QUIT:  # If user clicked close
                 root.deiconify()
@@ -81,12 +81,12 @@ def start_game():
             elif event.type == pygame.MOUSEBUTTONDOWN and turn % 2 == humanTurn:
                 pos = pygame.mouse.get_pos()
                 # Change the x/y screen coordinates to grid coordinates
-                #print("Mouse Pos: " + str(pos[0]))
+                # print("Mouse Pos: " + str(pos[0]))
                 WIDTH, HEIGHT = pygame.display.get_surface().get_size()
-                #print("WIDTH: " + str(WIDTH))
+                # print("WIDTH: " + str(WIDTH))
 
-                column = int((((pos[0] / (WIDTH + MARGIN))*100)//13))
-                #print("Column Value: " + str(((pos[0] / (WIDTH + MARGIN))*100)//13))
+                column = int((((pos[0] / (WIDTH + MARGIN)) * 100) // 13))
+                # print("Column Value: " + str(((pos[0] / (WIDTH + MARGIN))*100)//13))
                 if column > 6:
                     column = 6
 
@@ -116,7 +116,7 @@ def start_game():
                 # Sets the selected location to player 2
                 # Increment the turn
                 turn = turn + 1
-#*******************************************************************************************************************
+            # *******************************************************************************************************************
             # triggers pause menu with options for player to start new game, restart, or quit
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -127,14 +127,13 @@ def start_game():
                     print(str(OPTIONSWIDTH))
                     print(str(OPTIONSHEIGHT))
 
-                    rectBtnHeight = OPTIONSHEIGHT//10
-                    rectBtnWidth = OPTIONSWIDTH//3
-
+                    rectBtnHeight = OPTIONSHEIGHT // 10
+                    rectBtnWidth = OPTIONSWIDTH // 3
 
                     rectMargin = rectBtnHeight + 10
 
-                    rectX = OPTIONSWIDTH//3
-                    continueY = OPTIONSHEIGHT//10
+                    rectX = OPTIONSWIDTH // 3
+                    continueY = OPTIONSHEIGHT // 10
                     restartY = continueY + rectMargin
                     mainY = restartY + rectMargin
                     quitY = mainY + rectMargin
@@ -153,22 +152,22 @@ def start_game():
 
                     Continue = font.render('Continue', True, BLACK)
                     ContinueRect = Continue.get_rect()
-                    ContinueRect.center = (rectX+(rectBtnWidth//2), continueY+(rectBtnHeight//2))
+                    ContinueRect.center = (rectX + (rectBtnWidth // 2), continueY + (rectBtnHeight // 2))
                     background.blit(Continue, ContinueRect)
 
                     Restart = font.render('Restart', True, BLACK)
                     RestartRect = Restart.get_rect()
-                    RestartRect.center = (rectX+(rectBtnWidth//2), restartY+(rectBtnHeight//2))
+                    RestartRect.center = (rectX + (rectBtnWidth // 2), restartY + (rectBtnHeight // 2))
                     background.blit(Restart, RestartRect)
 
                     MM = font.render("Main Menu", True, BLACK)
                     MMRect = MM.get_rect()
-                    MMRect.center = (rectX+(rectBtnWidth//2), mainY+(rectBtnHeight//2))
+                    MMRect.center = (rectX + (rectBtnWidth // 2), mainY + (rectBtnHeight // 2))
                     background.blit(MM, MMRect)
 
                     Quit = font.render("Quit", True, BLACK)
                     QuitRect = Quit.get_rect()
-                    QuitRect.center = (rectX+(rectBtnWidth//2), quitY+(rectBtnHeight//2))
+                    QuitRect.center = (rectX + (rectBtnWidth // 2), quitY + (rectBtnHeight // 2))
 
                     background.blit(Quit, QuitRect)
                     screen.blit(background, (0, 0))
@@ -190,7 +189,7 @@ def start_game():
                                 posY = optionpos[1]
 
                                 # check if user clicked within width of buttons, ignore anything to right or left of them
-                                if rectX <= optionpos[0] <= (rectX+rectBtnWidth):
+                                if rectX <= optionpos[0] <= (rectX + rectBtnWidth):
                                     # checks if user clicks between start and end of buttons vertically
                                     if continueY <= posY <= (quitY + rectBtnHeight):
                                         if continueY <= posY <= (continueY + rectBtnHeight):
@@ -215,66 +214,64 @@ def start_game():
                                             # jump over rest of code, don't need to run, program closing
                                             return None
 
-
-
                                 # finished = True
 
                     # update display
-#**********************************************************************************************************************
+            # **********************************************************************************************************************
 
-                    # FOR TESTING to stop this from inf looping, just pauses everything for 5 sec
-                    #time.sleep(3)
+            # FOR TESTING to stop this from inf looping, just pauses everything for 5 sec
+            # time.sleep(3)
 
-                    # create separate tkinter window that features options for player to select
-                    # optionFrame = Tk()
-                    # optionFrame.geometry('200x200')
-                    # create 3 buttons on frame for each option
+            # create separate tkinter window that features options for player to select
+            # optionFrame = Tk()
+            # optionFrame.geometry('200x200')
+            # create 3 buttons on frame for each option
             elif event.type == pygame.VIDEORESIZE:
                 # There's some code to add back window content here.
                 screen = pygame.display.set_mode((event.w, event.h),
-                                                  pygame.RESIZABLE)
+                                                 pygame.RESIZABLE)
 
         # Set the screen background
         screen.fill(BLUE)
 
         # Draw the grid
-        #print("Drawing.....")
+        # print("Drawing.....")
         for row in range(6):
             for column in range(7):
                 color = WHITE
                 # If player one placed in this location set color of piece to black
-                if grid.search(row,column) == 1:
+                if grid.search(row, column) == 1:
                     color = BLACK
                 # If player two placed in this location set color of piece to red
-                if grid.search(row,column) == 2:
+                if grid.search(row, column) == 2:
                     color = RED
-            # Redraws board circles to match colors that players 1 & 2 select
-                #Pulls out the screens Width & Height
+                # Redraws board circles to match colors that players 1 & 2 select
+                # Pulls out the screens Width & Height
                 WIDTH, HEIGHT = pygame.display.get_surface().get_size()
                 #
                 # Max - > Takes the larger integer between 1 and the returned min value
                 # Min - > compares the value of the width and height to find the proper size of the circle
                 # Math -> // pulls out a strictly integer value & Width(Height)//7 matches the proper size of the circle
-                radius = max(min((WIDTH//7)//2 - 5, (HEIGHT//7)//2 - 5), 1)
+                radius = max(min((WIDTH // 7) // 2 - 5, (HEIGHT // 7) // 2 - 5), 1)
 
-                #Debug Line
-                #print("Current Row: " + str(row) + " @ y Coordinate : " + str(HEIGHT//7 + (HEIGHT//7 * row)) + " Current Height: " + str(HEIGHT))
+                # Debug Line
+                # print("Current Row: " + str(row) + " @ y Coordinate : " + str(HEIGHT//7 + (HEIGHT//7 * row)) + " Current Height: " + str(HEIGHT))
 
                 # @1st param layer to be placed
                 # @2nd param color of the circle, changes based on selection
                 # @3rd param x & y coord
                 # @4rd param the radius of the circle
-                pygame.draw.circle(screen, color, [radius+10 +(WIDTH//7 * column), (HEIGHT - radius - 2) - (HEIGHT//7 + (HEIGHT//7 * row))], radius)
+                pygame.draw.circle(screen, color, [radius + 10 + (WIDTH // 7 * column),
+                                                   (HEIGHT - radius - 2) - (HEIGHT // 7 + (HEIGHT // 7 * row))], radius)
 
-                #Set New Margin
-                MARGIN = radius+10//2
+                # Set New Margin
+                MARGIN = radius + 10 // 2
 
-        #Drawing grid to figure out margins
-        #sad = 0
-        #for x in range(6):
+        # Drawing grid to figure out margins
+        # sad = 0
+        # for x in range(6):
         #    sad =sad + (255//6.85)
         #    pygame.draw.rect(screen, RED,(sad, 0, 3 ,230))
-
 
         clock.tick(60)  # FPS
         pygame.display.flip()  # Updates screen
@@ -290,8 +287,19 @@ def start_game():
                     winnerStr = "Bot"
                 # TODO make winner box appear in front of pygame
                 # create tkinter message telling user who won (user or bot)
-                messagebox.showinfo("Winner!", winnerStr + " has won! Game completed in " + str(turn) + " turns.")
+                window = Tk()
+                window.eval('tk::PlaceWindow %s center' % window.winfo_toplevel())
+                window.withdraw()
+                messagebox.showinfo("Winner!", winnerStr + " has won! Game completed in " + str(turn) + " turns.",
+                                    parent=window)
+                window.destroy()
+                # make main menu reappear
+                root.deiconify()
+                done = True
 
+            # if there have been max amount of turns possible and a winner has not be declared, draw has occurred
+            elif turn == 42 and winner == 0:
+                messagebox.showinfo(" ", "There has been a draw!", parent=root)
                 # make main menu reappear
                 root.deiconify()
                 done = True
@@ -300,29 +308,29 @@ def start_game():
     pygame.quit()
 
 
-#def open_options():
-    # create new frame to give player options to
-    # 'quit', 'restart', 'new game'
-    #optionFrame = Tk()
-    #optionFrame.config(width=100, height=100)
+# def open_options():
+# create new frame to give player options to
+# 'quit', 'restart', 'new game'
+# optionFrame = Tk()
+# optionFrame.config(width=100, height=100)
 
-    # create grid for button option positions
-    #optionFrame.grid()
+# create grid for button option positions
+# optionFrame.grid()
 
 
-    # create each button for every option
-    # quitBtn = Button(optionFrame, text='Quit', command=quit_game)
-    # restartBtn = Button(optionFrame, text='Quit', command=restart_game)
-    # new_game_Btn = Button(optionFrame, text='Quit', command=new_game)
+# create each button for every option
+# quitBtn = Button(optionFrame, text='Quit', command=quit_game)
+# restartBtn = Button(optionFrame, text='Quit', command=restart_game)
+# new_game_Btn = Button(optionFrame, text='Quit', command=new_game)
 
-    #quitBtn = Button(optionFrame, text='Quit')
-    #restartBtn = Button(optionFrame, text='Restart')
-    #new_game_Btn = Button(optionFrame, text='New Game')
+# quitBtn = Button(optionFrame, text='Quit')
+# restartBtn = Button(optionFrame, text='Restart')
+# new_game_Btn = Button(optionFrame, text='New Game')
 
-    # add btns to grid
-    #quitBtn.grid(row=0, column=0, sticky=NSEW)
-    #restartBtn.grid(row=1, column=0, sticky=NSEW)
-    #new_game_Btn.grid(row=2, column=0, sticky=NSEW)
+# add btns to grid
+# quitBtn.grid(row=0, column=0, sticky=NSEW)
+# restartBtn.grid(row=1, column=0, sticky=NSEW)
+# new_game_Btn.grid(row=2, column=0, sticky=NSEW)
 
 
 # var that controls selection of bot pick radio buttons
