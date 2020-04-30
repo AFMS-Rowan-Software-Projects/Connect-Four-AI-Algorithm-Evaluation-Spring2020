@@ -1,6 +1,6 @@
 # Rajinder , Pete, Nick, Allison
-#   Last Updated: 3/9/2020
-#   Version 1
+#   Last Updated: 4/30/2020
+#   Version 0.02
 # Processes the board and looks for win conditions
 
 from Board import Board
@@ -8,8 +8,9 @@ from Board import Board
 
 # Check Win looks at left & right diagonals, columns, and rows for 4 in a row
 # @grid the board that needs to be checked for any win conditions
+# @mode the board will enable a four-sided square for a win condition
 # @return returns the winning player if one is found, if none 0 is returned
-def checkWin(grid):
+def checkWin(grid, mode):
     winner = 0
     winner = checkBothDiagonals(grid)
     if (winner > 0):
@@ -23,6 +24,11 @@ def checkWin(grid):
     if (winner > 0):
         print("row win")
         return winner
+    if(mode is True):
+        winner = checkSquare(grid)
+        if(winner > 0):
+            return winner
+
     return winner
 
     # Checks both diagonals across the board
@@ -173,4 +179,25 @@ def checkRow(board):
                     if (currRow[4] != 0 and playerMiddle == currRow[4]):  # Position 4 checked
                         return playerMiddle
         row += 1
-    return 0;
+    return 0
+
+    # Checks squares for the win condition
+    # @board the board that needs the square to be checked
+    # @Returns a winnning player or will return 0 if no player wins
+def checkSquare(board):
+    col = 1
+    while col < 6:
+        row = 0
+        while row < 6:
+            playerQuadrant = int(board.search(row, col))
+            if(playerQuadrant != 0):
+                if(board.search(row + 1, col) != 0 and playerQuadrant == board.search(row + 1, col)):
+                    if(board.search(row + 1, col - 1) != 0 and playerQuadrant == board.search(row + 1, col - 1)):
+                        if(board.search(row, col - 1) != 0 and playerQuadrant == board.search(row, col - 1)):
+                            return playerQuadrant
+                    if(board.search(row + 1, col + 1) != 0 and playerQuadrant == board.search(row + 1, col + 1)):
+                        if(board.search(row, col + 1) != 0 and playerQuadrant == board.search(row, col + 1)):
+                            return playerQuadrant
+            row += 1
+        col += 2
+    return 0
