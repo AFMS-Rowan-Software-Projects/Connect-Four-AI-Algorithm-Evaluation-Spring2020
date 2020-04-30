@@ -225,9 +225,9 @@ def pick_best():
 # @return Integer which is random
 def pick_random(board):
     column = randint(0,6)
-    if board.search(5, col) != 0:
+    if board.search(5, column) != 0:
         while True:
-            col = randint(0, 6)
-            if board.search(5, col) == 0:
+            column = randint(0, 6)
+            if board.search(5, column) == 0:
                 break
     return column
