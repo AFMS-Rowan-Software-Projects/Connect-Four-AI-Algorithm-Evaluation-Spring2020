@@ -1,6 +1,6 @@
 '''
 Rajinder, Pete, Josh, Ian
-Version 0.7
+Version 0.8
 4/30/2020
 Main Function
     Handles all the interactions between Game Function & Algorithms
@@ -16,7 +16,7 @@ algnum = 1 # Chooses algorithm (Make sure to only change when game is won or los
 #Constructor
 def __init__(key, board, turn, mode):
     if key is 1:
-        selCol = selectAlgorithm(key, board)
+        selCol = selectAlgorithm(key, board, False)
         return selCol
     elif key is not 1:
         if turn < 1:
@@ -48,3 +48,4 @@ def offensive(board, mode):
         return Bot.__init__(board, 2, False, mode)
 def minmax(board, mode):
         return MinMax.__init__(board, mode)
+
