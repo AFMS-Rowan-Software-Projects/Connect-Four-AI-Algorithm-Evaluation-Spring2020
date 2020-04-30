@@ -1,0 +1,26 @@
+#   Pete
+#   Version 0.01
+#   4/20/2020
+#
+#   MinMax algorithm
+#   Will take the best path during the course of the game to avoid losing/win
+#
+
+import Board
+import algBot
+
+#MinMax Algorithm Main Driver
+def __init__(board):
+    #Sets two Integers, offensive and defensive, to the best values respectively
+    #Column is a last-ditch effort if there are no edges
+    defensive = algBot.__init__(board, 1, True)
+    offensive = algBot.__init__(board, 2, True)
+
+    #Comparing the two before picking which position to take on the board
+    if(offensive[1] > defensive[1]):
+        return offensive[0]
+    elif(defensive[1] > offensive[1]):
+        return defensive[0]
+    #If all else fails, will pick at random
+    else:
+        return algBot.__init__(board, 0, False)
