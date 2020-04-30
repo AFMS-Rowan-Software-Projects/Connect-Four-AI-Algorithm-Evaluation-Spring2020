@@ -3,7 +3,7 @@
 #   4/29/2020
 #
 # Offensive/Defensive/Random algorithms
-#   Will try to win as fast as possible, block player's pieces to force draw, or randomly select placement
+#   Will try to win as fast as possible
 #
 import copy
 from Board import Board
@@ -15,21 +15,27 @@ coordinates = {}
 
 #Offensive Algorithm Driver
 #Difficulty set to True when MinMax is active
-def __init__(board, bot, difficulty):    #Offensive Bot Main Driver
+def __init__(board, bot, difficulty, mode):    #Offensive Bot Main Driver
     tempBoard = copy.deepcopy(board)
-    if(bot is 1 or bot is 2):
+    if(bot is not 0):
         if(difficulty is False):
             coordinates.clear()
             fix_board(bot, tempBoard)
             find_edges(tempBoard)
-            calculate_edges(tempBoard)
+            if(mode is True):
+                calculate_edges(tempBoard, True)
+            else:
+                calculate_edges(tempBoard, False)
             return pick_col(tempBoard)
         else:                           #Only for MinMax
             bestOption = ()
             coordinates.clear()
             fix_board(bot, tempBoard)
             find_edges(tempBoard)
-            calculate_edges(tempBoard)
+            if(mode is True):
+                calculate_edges(tempBoard, True)
+            else:
+                calculate_edges(tempBoard, False)
             bestOption = (pick_col(tempBoard), pick_best())
             return bestOption
     else:
@@ -93,7 +99,7 @@ def find_edges(board):
         if board.search(value[0], value[1]) is 0:
             coordinates[value] = 0
 # Changes values through calculations based on set rules by the algorithm
-def calculate_edges(board):
+def calculate_edges(board, mode):
     # Iterates through all edges in a for-each loop within the dictionary
     for position in coordinates:
         connect = []      # Array which will look counter-clockwise around the edge for number of Bot's pieces
@@ -168,6 +174,45 @@ def calculate_edges(board):
             else:
                 break
         connect.append(pieces)
+        pieces = 0
+
+        #Only will calculate these if the Square Move mode is active
+        if(mode is True):
+            #Searching for Top-Left Square
+            if board.inbound(position[0] + 1, position[1] - 1) and board.search(position[0] + 1, position[1] - 1) is True:
+                pieces += 1
+            if board.inbound(position[0], position[1] - 1) and board.search(position[0], position[1] - 1) is True:
+                pieces += 1
+            connect.append(pieces)
+            pieces = 0
+
+            #Searching for Bottom-Left Square
+            if board.inbound(position[0], position[1] - 1) and board.search(position[0], position[1] - 1) is True:
+                pieces += 1
+            if board.inbound(position[0] - 1, position[1] - 1) and board.search(position[0] - 1, position[1] - 1) is True:
+                pieces += 1
+            if board.inbound(position[0] - 1, position[1]) and board.search(position[0] - 1, position[1]) is True:
+                pieces += 1
+            connect.append(pieces)
+            pieces = 0
+
+            #Searching for Bottom-Right Square
+            if board.inbound(position[0] - 1, position[1]) and board.search(position[0] - 1, position[1]) is True:
+                pieces += 1
+            if board.inbound(position[0] - 1, position[1] + 1) and board.search(position[0] - 1, position[1] + 1) is True:
+                pieces += 1
+            if board.inbound(position[0], position[1] + 1) and board.search(position[0], position[1] + 1) is True:
+                pieces += 1
+            connect.append(pieces)
+            pieces = 0
+
+            #Searching for Top-Right Square
+            if board.inbound(position[0], position[1] + 1) and board.search(position[0], position[1] + 1) is True:
+                pieces += 1
+            if board.inbound(position[0] + 1, position[1] + 1) and board.search(position[0] + 1, position[1] + 1) is True:
+                pieces += 1
+            connect.append(pieces)
+
         for piece in connect:
             temp = piece
             if piece == 1:
