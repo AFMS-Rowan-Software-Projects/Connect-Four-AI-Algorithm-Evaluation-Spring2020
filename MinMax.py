@@ -1,6 +1,6 @@
 #   Pete
-#   Version 0.02
-#   4/29/2020
+#   Version 0.03
+#   4/30/2020
 #
 #   MinMax algorithm
 #   Will take the best path during the course of the game to avoid losing/win
