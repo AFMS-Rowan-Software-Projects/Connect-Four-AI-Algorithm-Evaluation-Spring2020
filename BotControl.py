@@ -7,9 +7,8 @@ Main Function
     Selects the algorithm
 '''
 import algR
-import algDef
-import algOff
-import algMinMax
+import Bot
+import MinMax
 from Board import Board
 
 selCol = -1 # Selected Column by the algorithm ( Default value of -1 for error checking)
@@ -43,10 +42,10 @@ def selectAlgorithm(key, board):
 
 #Defines each algorithm and associates to the corresponding file
 def random(board):
-        return algR.__init__(board)
+        return Bot.__init__(board, 0, False)
 def defensive(board):
-        return algDef.__init__(board, False)
+        return Bot.__init__(board, 1, False)
 def offensive(board):
-        return algOff.__init__(board, False)
+        return Bot.__init__(board, 2, False)
 def minmax(board):
-        return algMinMax.__init__(board)
+        return MinMax.__init__(board)
