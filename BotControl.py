@@ -1,7 +1,7 @@
 '''
 Rajinder, Pete, Josh, Ian
-Version 0.05
-4/20/2020
+Version 0.6
+4/29/2020
 Main Function
     Handles all the interactions between Game Function & Algorithms
     Selects the algorithm
