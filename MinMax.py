@@ -13,8 +13,8 @@ import algBot
 def __init__(board):
     #Sets two Integers, offensive and defensive, to the best values respectively
     #Column is a last-ditch effort if there are no edges
-    defensive = algBot.__init__(board, 1, True)
-    offensive = algBot.__init__(board, 2, True)
+    defensive = Bot.__init__(board, 1, True)
+    offensive = Bot.__init__(board, 2, True)
 
     #Comparing the two before picking which position to take on the board
     if(offensive[1] > defensive[1]):
@@ -23,4 +23,4 @@ def __init__(board):
         return defensive[0]
     #If all else fails, will pick at random
     else:
-        return algBot.__init__(board, 0, False)
+        return Bot.__init__(board, 0, False)
