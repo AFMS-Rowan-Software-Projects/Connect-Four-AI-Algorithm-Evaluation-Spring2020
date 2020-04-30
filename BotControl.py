@@ -6,7 +6,6 @@ Main Function
     Handles all the interactions between Game Function & Algorithms
     Selects the algorithm
 '''
-import algR
 import Bot
 import MinMax
 from Board import Board
