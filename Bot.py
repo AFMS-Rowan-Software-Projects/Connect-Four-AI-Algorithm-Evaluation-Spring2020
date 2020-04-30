@@ -3,7 +3,7 @@
 #   4/29/2020
 #
 # Offensive/Defensive/Random algorithms
-#   Will try to win as fast as possible
+#   Will try to win as fast as possible, block player's pieces to force draw, or randomly select placement
 #
 import copy
 from Board import Board
