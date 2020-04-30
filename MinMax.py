@@ -7,7 +7,7 @@
 #
 
 import Board
-import algBot
+import Bot
 
 #MinMax Algorithm Main Driver
 def __init__(board):
