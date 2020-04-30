@@ -1,6 +1,6 @@
 # Rajinder , Pete, Josh, Ian
-#   Version 0.03
-#   4/29/2020
+#   Version 0.04
+#   4/30/2020
 #
 # Offensive/Defensive/Random algorithms
 #   Will try to win as fast as possible
