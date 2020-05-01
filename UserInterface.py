@@ -11,11 +11,9 @@ from Board import Board
 from tkinter import *
 from tkinter.ttk import *
 import tkinter as tk
-import os
-import gameFunction
+import GameFunction
 import BotControl
 from random import randint
-import time
 
 # Root window for new game
 root = Tk()
@@ -69,7 +67,6 @@ def start_game():
     clock = pygame.time.Clock()
     counter = 0
 
-    # ToDo: make it so it doesn't loop constantly ( Maybe an action listener???????????)
     while not done:
 
         counter = counter + 1
@@ -105,7 +102,7 @@ def start_game():
                 # Checks turn and sees if location is occupied
 
             elif turn % 2 == botTurn:
-                column = BotControl.__init__(botPick.get(), grid, turn)
+                column = BotControl.__init__(botPick.get(), grid, turn, squareWin.get()) # square win is mode
                 currentCol = grid.get_col(column)
                 for currRow in range(5, -1, -1):
                     if currentCol[currRow] == 0:
@@ -214,17 +211,6 @@ def start_game():
                                             # jump over rest of code, don't need to run, program closing
                                             return None
 
-                                # finished = True
-
-                    # update display
-            # **********************************************************************************************************************
-
-            # FOR TESTING to stop this from inf looping, just pauses everything for 5 sec
-            # time.sleep(3)
-
-            # create separate tkinter window that features options for player to select
-            # optionFrame = Tk()
-            # optionFrame.geometry('200x200')
             # create 3 buttons on frame for each option
             elif event.type == pygame.VIDEORESIZE:
                 # There's some code to add back window content here.
@@ -267,17 +253,12 @@ def start_game():
                 # Set New Margin
                 MARGIN = radius + 10 // 2
 
-        # Drawing grid to figure out margins
-        # sad = 0
-        # for x in range(6):
-        #    sad =sad + (255//6.85)
-        #    pygame.draw.rect(screen, RED,(sad, 0, 3 ,230))
 
         clock.tick(60)  # FPS
         pygame.display.flip()  # Updates screen
         pygame.display.update()
         if turn > 6:
-            winner = gameFunction.checkWin(grid)
+            winner = GameFunction.checkWin(grid, squareWin.get())  # squareWin is mode
             if winner != 0:  # check if there is a win
                 # convert 1 or 2 to player or bot respectively
                 winnerStr = ""
@@ -285,7 +266,6 @@ def start_game():
                     winnerStr = "Player"
                 else:
                     winnerStr = "Bot"
-                # TODO make winner box appear in front of pygame
                 # create tkinter message telling user who won (user or bot)
                 window = Tk()
                 window.eval('tk::PlaceWindow %s center' % window.winfo_toplevel())
@@ -337,6 +317,10 @@ def start_game():
 botPick = tk.IntVar()
 botPick.set(1)  # default bot is set to 1, or 'random bot'
 
+# var that controls square win toggle
+squareWin = tk.BooleanVar()
+squareWin.set(False) # default is false, player has to enable it
+
 # set default size of frame
 root.geometry('500x500')
 
@@ -352,18 +336,23 @@ defensive_select_btn = Radiobutton(root, text='Defensive Bot', variable=botPick,
 aggresive_select_btn = Radiobutton(root, text='Aggressive Bot', variable=botPick, value=3)
 minmax_select_btn = Radiobutton(root, text='Min Max Bot', variable=botPick, value=4)
 
+# checkbox that controls ability to win by placing pieces in a square
+square_win_checkbox = Checkbutton(root, text='Square Win', variable=squareWin)
+
 # set position of each btn to top of window
 start_game_btn.grid(row=0, column=0)
 rand_select_btn.grid(row=1, column=0)
 defensive_select_btn.grid(row=2, column=0)
 aggresive_select_btn.grid(row=3, column=0)
 minmax_select_btn.grid(row=4, column=0)
+square_win_checkbox.grid(row=5, column=0)
 
 start_game_btn.place(relx=0.5, rely=0.2, anchor=CENTER)
 rand_select_btn.place(relx=0.5, rely=0.3, anchor=CENTER)
 defensive_select_btn.place(relx=0.5, rely=0.4, anchor=CENTER)
 aggresive_select_btn.place(relx=0.5, rely=0.5, anchor=CENTER)
 minmax_select_btn.place(relx=0.5, rely=0.6, anchor=CENTER)
+square_win_checkbox.place(relx=0.5, rely=0.8, anchor=CENTER)
 
 # mainloop
 root.mainloop()
