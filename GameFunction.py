@@ -14,15 +14,15 @@ def checkWin(grid, mode):
     winner = 0
     winner = checkBothDiagonals(grid)
     if (winner > 0):
-        print("diag win")
+        # print("diag win")
         return winner
     winner = checkCol(grid)
     if (winner > 0):
-        print("Col win")
+        # print("Col win")
         return winner
     winner = checkRow(grid)
     if (winner > 0):
-        print("row win")
+        # print("row win")
         return winner
     if(mode is True):
         winner = checkSquare(grid)
