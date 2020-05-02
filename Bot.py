@@ -1,6 +1,6 @@
 # Rajinder , Pete, Josh, Ian
-#   Version 0.04
-#   4/30/2020
+#   Version 0.05
+#   5/01/2020
 #
 # Offensive/Defensive/Random algorithms
 #   Will try to win as fast as possible
@@ -213,6 +213,7 @@ def calculate_edges(board, mode):
                 pieces += 1
             connect.append(pieces)
 
+        #Calculations for pieces leading to a Connect4 winning move
         for piece in connect:
             temp = piece
             if piece == 1:
@@ -223,6 +224,12 @@ def calculate_edges(board, mode):
                 temp = 20
             summation += temp
         coordinates[position] = summation
+
+        # Checks if a coordinate is 'floating' and if it is, set its value to a negative to prevent
+        # the bot from making that move
+        for point in coordinates:
+            if board.search(point[0] - 1, point[1]) is 0:
+                coordinates[point] = -50
 
 # Returns the column from dictionary associated with the
 # position with the highest score made by the bot for User Interface
