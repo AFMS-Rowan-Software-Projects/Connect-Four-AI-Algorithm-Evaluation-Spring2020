@@ -57,7 +57,7 @@ def fix_board(bot, board):
                 board.set_board(currRow, currCol, player)
             elif (board.search(currRow, currCol) == 2 or board.search(currRow, currCol) is placement):  # Checks for bot piece
                 board.set_board(currRow, currCol, placement)
-    board.printBoard()
+    # board.printBoard()
 
  # Finds outer edge pieces on the board set to True e.g. bot placed pieces with free slots around them set in
  #dictionary which has initial value of 0 for each key/coordinate tuple
@@ -248,7 +248,7 @@ def pick_col(board):
                 maximum = coordinates[key]
                 column = key[1]
 
-    print(column)
+    # print(column)
     return column
 
 # Returns a value from dictionary associated with the
