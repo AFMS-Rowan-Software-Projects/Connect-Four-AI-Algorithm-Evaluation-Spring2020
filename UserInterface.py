@@ -175,6 +175,9 @@ def start_game():
 
                             if i.type == pygame.QUIT:  # If user clicked close
                                 return None
+                            if(i.type == pygame.KEYDOWN):
+                                if(i.key == pygame.K_ESCAPE):
+                                    finished = True
 
                             if i.type == pygame.MOUSEBUTTONDOWN:
                                 optionpos = pygame.mouse.get_pos()
