@@ -138,7 +138,9 @@ def start_game():
                     pygame.draw.rect(background, WHITE,
                                      (rectX, quitY, rectBtnWidth, rectBtnHeight))  # the quit rect
 
-                    font = pygame.font.Font('freesansbold.ttf', 12)
+                    sorted(pygame.font.get_fonts())
+
+                    font = pygame.font.SysFont('arial', 12)
 
                     Continue = font.render('Continue', True, BLACK)
                     ContinueRect = Continue.get_rect()
